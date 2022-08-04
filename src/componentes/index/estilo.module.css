@@ -1,0 +1,15 @@
+.container{
+    padding: 5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.texto{
+    margin: 2rem 0;
+}
+.img{
+    width:700px;
+    height: 200px;
+}

@@ -1,0 +1,33 @@
+.container{
+    display: flex; 
+    width: 900px;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    margin: 1rem auto;
+    height: 50px;
+}
+
+
+.nav{
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.nav p{
+    padding-bottom: 1rem;
+
+}
+.nav a{
+    text-decoration: none;
+    color: black;
+    margin-bottom: 2px;
+}
+.nav a:hover{
+    border-bottom: 2px solid black;
+    margin-bottom: 0;
+}
+.logo{
+    height: 50px;
+    border-radius: 5px;
+}
