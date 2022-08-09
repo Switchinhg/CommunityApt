@@ -3,5 +3,49 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f5f5f5;
+    background-color: #f5f5f500;
+}
+
+.boton{
+    box-shadow: 0 0  1px black;
+    padding:  0.5rem;
+    border-radius: 2px;
+    background-color: #f5f5f500;
+}
+.boton:active{
+    box-shadow: -1px -1px  1px black;
+    
+}
+.gradiant{
+    background: linear-gradient(#00b4d8b3, #48cae4a0);
+}
+input{
+    border: none;
+    box-shadow: 0 0 2px black;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.Login{
+    border: none;
+    font-size: 1rem;
+    box-shadow: 0 0 2px black;
+    width: 100%;
+    padding: 0.6rem;
+    cursor: pointer;
+    background: linear-gradient(to left, rgba(29, 207, 220, 0.50) , rgb(8, 176, 188) ) right;
+    background-size: 200% 100%;
+    transition:all 1s ease;
+    letter-spacing: 0.2rem;
+}
+.Login:hover{
+    background-position:left bottom;
+}
+
+input:focus{
+    outline: solid 2px rgb(0, 0, 0);
+}
+.error{
+    font-weight: bold;
+    color: rgba(255, 0, 0, 0.666);
 }

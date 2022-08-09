@@ -1,17 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import estilos from './estilo.module.css'
+import estilos from './navbar.module.css'
 
 const Navbar = () => {
     return (
     <header className={estilos.container}>
-        <div>
+        <Link to={'/'} >
                 <img className={estilos.logo} src={"./logo.png"} alt="CommunityAPT Logo"  />
+        </Link>
             
-        </div>
+        
 
         <div className={estilos.nav}>
-        <Link to='/' >
+     {/*    <Link to='/' >
             <p>Inicio</p>
         </Link>
         <Link to='/nosotros' >
@@ -19,9 +20,9 @@ const Navbar = () => {
         </Link>
         <Link to='/contacto' >
             <p>Contacto</p>
-        </Link>
+        </Link> */}
         <Link to='/Login' >
-            <p>Login</p>
+            <p className='boton'>ENTRAR</p>
         </Link>
         </div>
         </header>

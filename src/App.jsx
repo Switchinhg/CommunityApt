@@ -8,7 +8,7 @@ import './estilos/estilos.css'
 
 function App() {
   return (
-    <>
+    <div className='gradiant'>
     
     <Navbar />
 
@@ -18,7 +18,7 @@ function App() {
       <Route path='/contacto' element={<Contacto />}/>
       <Route path='/login' element={<Login />}/>
     </Routes>
-    </>
+    </div>
   );
 }
 

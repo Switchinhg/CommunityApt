@@ -4,8 +4,9 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    margin: 1rem auto;
-    height: 50px;
+    margin:  auto;
+    padding-top: 1rem;
+    background-color: rgba(240, 248, 255, 0);
 }
 
 
@@ -15,7 +16,7 @@
     align-items: center;
 }
 .nav p{
-    padding-bottom: 1rem;
+    margin-bottom: 0.2rem;
 
 }
 .nav a{

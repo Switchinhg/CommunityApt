@@ -1,19 +1,22 @@
 import React from 'react'
-import estilos from './estilo.module.css'
+import Footer from '../footer/Footer'
+import estilos from './index.module.css'
 
 const Index = () => {
   return (
-    <div className={estilos.container}>
+    <>
+    <div className={estilos.container }>
       
-      <div className={estilos.img} style={{backgroundImage: `url(${process.env.PUBLIC_URL + './logo.png'})`}}>
-      </div>
+        <img src={"./apartamentos.png"} alt="" />
 
       <div className={estilos.texto}>
-        <p>Servicio para administrar apartamentos desde la web </p>
+        <p>En CommunityAPT trabajamos para darle a todos los administradores de apartamentos un sistema donde manejarlo sea más facil, ya sea quejas, mandar comunicados o avisos, todo en una plataforma </p>
       </div>
 
 
     </div>
+    <Footer />
+    </>
   )
 }
 
