@@ -1,38 +1,60 @@
 import React, { useRef, useState } from 'react'
+import {useNavigate}from 'react-router-dom'
 import estilos from './login.module.css'
 import { UsarAuth } from '../contextos/AuthContext'
+import MoonLoader from "react-spinners/ClipLoader";
+
 
 const Login = () => {
   const [log, setLog] = useState(true)
+  const [cargando, setCargando] = useState(false)
   const [errores,setErrores]= useState('')
   const emailRef = useRef()
   const contraRef = useRef()
+  const navigate = useNavigate()
   function ChangeLogin (){
-    setLog(!log)  
-    console.log(log)
+    setLog(!log)
   }
-  const { registrar } = UsarAuth()
+  const { registrar, login, usuarioActivo} = UsarAuth()
 
-  function handleSubmit(e){
+
+  
+
+  async function handleSubmit(e){
+    
+    setErrores('')
     e.preventDefault()
 
-    log?
-    <>
-    {registrar(emailRef.current.value, contraRef.current.value)}
-    {console.log("Login")}
-    </>
-    
-    :
-    <>
-      {contraRef.current.value.length  < 6? 
-      setErrores('La contraseña debe ser mayor a 5 caracteres')
-        :
-      registrar(emailRef.current.value, contraRef.current.value)
-      .finally(setErrores(''))
-      
+    if(log){
+      try{
+        setCargando(true)
+        await login(emailRef.current.value, contraRef.current.value)
+        navigate('/dashboard')
+      }catch{
+        setErrores('No se pudo logear')
+
       }
-      
-    </>
+    
+
+    }else{
+      if(contraRef.current.value.length  < 6){
+        setErrores('La contraseña debe ser mayor o igual a 6 caracteres')
+
+      }else{
+        try{
+          setCargando(true)
+          await registrar(emailRef.current.value, contraRef.current.value)
+          navigate('/dashboard')
+        }
+        catch{
+          setErrores('Error al crear cuenta')
+
+        }
+
+      }
+    }
+
+      setCargando(false)
   }
 
   return (
@@ -65,7 +87,7 @@ const Login = () => {
         
         <div className={estilos.loginInput}>
           <label htmlFor="contraseña">Apellido</label>
-          <input type="text" name="contraseña"  id="contraseña" />
+          <input type="text" name="apellido"  id="apellido" />
         </div>
         : 
         null
@@ -76,8 +98,12 @@ const Login = () => {
         </div>
 
         {/* Boton Registrar o Logear */}
-        <div className="loginSend">
-          <button className='Login' type='submit' name="submit" id="submit">{log?'Entrar': 'Registrar'}</button>
+        <div className={estilos.loginSend}>
+            {cargando? 
+            <MoonLoader color="#74D7ED" cssOverride={{}} loading={cargando} size={35} speedMultiplier={1} />
+            :
+            <button  className='Login' type='submit' name="submit" id="submit">{log?'Entrar': 'Registrar'}</button>
+          }
         </div>
         {/* Metodos Login */}
 

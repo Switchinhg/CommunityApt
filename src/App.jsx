@@ -6,13 +6,12 @@ import Login from './componentes/login/Login';
 import Index from './componentes/index/Index';
 import './estilos/estilos.css'
 import NotFound from './componentes/notfound/NotFound';
-import AuthProvider from './componentes/contextos/AuthContext';
+import Dashboard from './componentes/dashboard/Dashboard';
 
 function App() {
   return (
     <div className='gradiant'>
 
-      <AuthProvider >
         <Navbar/> 
 
         <Routes>
@@ -20,11 +19,11 @@ function App() {
           <Route path='/nosotros' element={<Nosotros />}/>
           <Route path='/contacto' element={<Contacto />}/>
           <Route path='/login' element={<Login />}/>
+          <Route path='/dashboard' element={ <Dashboard />} />           
           {/* 404 */}
           <Route path='/404' element={<NotFound />} />
           <Route path='*' element={<Navigate to='/404' />} />
         </Routes>
-      </AuthProvider>
     </div>
   );
 }

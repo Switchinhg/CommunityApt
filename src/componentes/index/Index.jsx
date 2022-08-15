@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import {useNavigate}from 'react-router-dom'
 import Footer from '../footer/Footer'
 import estilos from './index.module.css'
+import { UsarAuth } from '../contextos/AuthContext'
 
 const Index = () => {
+  
+  const { usuarioActivo } = UsarAuth()
+  const navigate = useNavigate()
+
+
+
+  useEffect(() => {
+    if(usuarioActivo){
+      navigate("/dashboard")
+    }
+  }, [])
+  
+
   return (
+
     <>
     <div className={estilos.container }>
       
