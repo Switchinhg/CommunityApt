@@ -2,22 +2,37 @@
 import { Link } from 'react-router-dom'
 import estilos from './navbar.module.css'
 import { UsarAuth } from '../contextos/AuthContext'
+import { useState } from 'react'
+import {useNavigate}from 'react-router-dom'
 
 const Navbar = () => {
+    const navigate = useNavigate()
     const { usuarioActivo } = UsarAuth()
     const { delog } = UsarAuth()
+    const [clas, setclas] = useState(false)
 
+    async function delogs (){
+      await delog()
+      navigate('/login')
+      setclas(false)
+
+    }
+
+    const click = () =>{
+      setclas(!clas)
+    }
     
+
     return (
     <header className={estilos.container}>
-        <Link to={usuarioActivo? '/dashboard': '/'} >
+        <Link to={usuarioActivo? '/inicio': '/'} >
                 <img className={estilos.logo} src={"./logo.png"} alt="CommunityAPT Logo"  />
         </Link>
             
         
 
         <div className={estilos.nav}>
-     {/*    <Link to='/' >
+      {/*    <Link to='/' >
             <p>Inicio</p>
         </Link>
         <Link to='/nosotros' >
@@ -26,10 +41,21 @@ const Navbar = () => {
         <Link to='/contacto' >
             <p>Contacto</p>
         </Link> */}
-        <p>Hola {usuarioActivo?usuarioActivo.email:null}</p>
       
         {usuarioActivo?
-            <p className='boton' onClick={delog}>Salir</p>
+        <>
+            <button className='boton botonMenu' onClick={click}>Menú</button>
+          <ul className={`${estilos.dropdown} ${clas? estilos.show: estilos.notshow} `}>
+            <button className={estilos.item}>Perfil</button>
+            <button className={estilos.item} onClick={()=>delogs() }>Salir</button>
+          </ul>
+        
+        </>
+
+              
+
+
+            // <p className='boton' onClick={delog}>Salir</p>
         :
         
         <Link to='/Login' >

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {useNavigate}from 'react-router-dom'
 import estilos from './login.module.css'
 import { UsarAuth } from '../contextos/AuthContext'
@@ -11,12 +11,22 @@ const Login = () => {
   const [errores,setErrores]= useState('')
   const emailRef = useRef()
   const contraRef = useRef()
+  const nombreRef = useRef()
+  const apellidoRef = useRef()
   const navigate = useNavigate()
   function ChangeLogin (){
     setLog(!log)
   }
-  const { registrar, login, usuarioActivo} = UsarAuth()
+  const { login, registyCambiarInfo, usuarioActivo } = UsarAuth()
 
+  useEffect(() => {
+    
+    if(usuarioActivo){
+      navigate('/dashboard')
+    }
+    
+  }, [])
+  
 
   
 
@@ -29,10 +39,9 @@ const Login = () => {
       try{
         setCargando(true)
         await login(emailRef.current.value, contraRef.current.value)
-        navigate('/dashboard')
-      }catch{
-        setErrores('No se pudo logear')
-
+        navigate('/inicio')
+      }catch(r){
+        setErrores( r.message)
       }
     
 
@@ -43,14 +52,15 @@ const Login = () => {
       }else{
         try{
           setCargando(true)
-          await registrar(emailRef.current.value, contraRef.current.value)
-          navigate('/dashboard')
+          await registyCambiarInfo(emailRef.current.value, contraRef.current.value, nombreRef.current.value , apellidoRef.current.value)
+          // await registrar(emailRef.current.value, contraRef.current.value)
+          // await cambiarInfo(nombreRef.current.value , apellidoRef.current.value)
+          navigate('/inicio')
         }
-        catch{
-          setErrores('Error al crear cuenta')
+        catch(r){
+          setErrores(r.message)
 
         }
-
       }
     }
 
@@ -58,6 +68,8 @@ const Login = () => {
   }
 
   return (
+    usuarioActivo?
+    null :
     <div className={estilos.wrapper}>
       <h1>{log?'ENTRAR':'REGISTRARSE'}</h1>
       {/* Marco */}
@@ -74,24 +86,25 @@ const Login = () => {
           <input type="password" name="contraseña"  id="contraseña" ref={contraRef} required />
         </div>
         {/* Nombre */}
+
         {!log?
-        
         <div className={estilos.loginInput}>
           <label htmlFor="contraseña">Nombre</label>
-          <input type="text" name="nombre"  id="nombre" />
+          <input type="text" name="nombre"  id="nombre" ref={nombreRef} />
         </div>
         :null
         }
+
         {/* Apellido */}
         {!log?
-        
         <div className={estilos.loginInput}>
           <label htmlFor="contraseña">Apellido</label>
-          <input type="text" name="apellido"  id="apellido" />
+          <input type="text" name="apellido"  id="apellido" ref={apellidoRef} />
         </div>
         : 
         null
         }
+
         {/* errores */}
         <div className={estilos.loginError}>
           <p className='error'>{errores}</p>
