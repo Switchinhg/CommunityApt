@@ -3,6 +3,7 @@ import {useNavigate}from 'react-router-dom'
 import estilos from './login.module.css'
 import { UsarAuth } from '../contextos/AuthContext'
 import MoonLoader from "react-spinners/ClipLoader";
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 
 const Login = () => {
@@ -14,10 +15,11 @@ const Login = () => {
   const nombreRef = useRef()
   const apellidoRef = useRef()
   const navigate = useNavigate()
+  const db = getFirestore()
   function ChangeLogin (){
     setLog(!log)
   }
-  const { login, registyCambiarInfo, usuarioActivo } = UsarAuth()
+  const { login, registrar, usuarioActivo } = UsarAuth()
 
   useEffect(() => {
     
@@ -39,9 +41,14 @@ const Login = () => {
       try{
         setCargando(true)
         await login(emailRef.current.value, contraRef.current.value)
-        navigate('/inicio')
+         
+         
+
+        console.log(usuarioActivo)
+
+
       }catch(r){
-        setErrores( r.message)
+        setErrores( 'Contraseña o Usuario incorrecto')
       }
     
 
@@ -52,13 +59,11 @@ const Login = () => {
       }else{
         try{
           setCargando(true)
-          await registyCambiarInfo(emailRef.current.value, contraRef.current.value, nombreRef.current.value , apellidoRef.current.value)
-          // await registrar(emailRef.current.value, contraRef.current.value)
-          // await cambiarInfo(nombreRef.current.value , apellidoRef.current.value)
+          await registrar(emailRef.current.value, contraRef.current.value, nombreRef.current.value , apellidoRef.current.value)
           navigate('/inicio')
         }
         catch(r){
-          setErrores(r.message)
+          setErrores('Contraseña o Usuario incorrecto')
 
         }
       }

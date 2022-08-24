@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../firebase";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut } from 'firebase/auth'
+import { doc, getDoc, /* getDoc , */ getFirestore, setDoc } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom";
 /* creamos contexto */
 
 const AuthContext = createContext([]);
@@ -8,29 +10,42 @@ const AuthContext = createContext([]);
 export const UsarAuth = () => useContext(AuthContext);
 
 export default function AuthProvider({ children }) {
+  const db = getFirestore()
   const [usuarioActivo, setUsuarioActivo] = useState();
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
-  async function registyCambiarInfo(email, contraseña, nombre, apellido){
-    await registrar(email,contraseña)
-    await cambiarInfo(nombre, apellido)
-    .then(auth.onAuthStateChanged(user=>{
-      setUsuarioActivo(user)
-    }))
+  /* Funcion para registrar al usuario */
+  async function registrar(email, contraseña , nombre, apellido ) {
+  return createUserWithEmailAndPassword(auth, email, contraseña)
+      .then(cred=> {
+            const usuario = {
+                  nombre,
+                  apellido,
+                  email,
+
+                  UID: cred.user.uid
+            }
+            setDoc(doc(db, "usuarios", cred.user.uid), usuario)
+            // para Leer data getDoc(doc(db, 'usuarios', cred.user.uid))
+      })
   }
-  /* Funcion para logear al usuario */
-  function registrar(email, contraseña ) {
-    return createUserWithEmailAndPassword(auth,email, contraseña)
-  }
-  function cambiarInfo(nombre,  apellido){
-    return updateProfile(auth.currentUser, {
-      displayName:nombre + ' '+ apellido
-    })
-    
-  }
-  function login(email,contraseña){
+  /* Pra logear al usuario */
+  async function login(email,contraseña){
     return signInWithEmailAndPassword(auth, email,contraseña)
+    .then(data => {
+      console.log(data.user.uid)
+      const usr =  getDoc(doc(db, 'usuarios', data.user.uid))
+
+      console.log(usr)
+      usr?
+        
+        navigate('/login')
+      :
+      navigate('/inicio')
+      })
   }
+  /* para delogear al usuario */
   function delog(){
     return signOut(auth)
   }
@@ -47,9 +62,7 @@ export default function AuthProvider({ children }) {
 
   const value = {
     usuarioActivo,
-    registyCambiarInfo,
     registrar,
-    cambiarInfo,
     login,
     delog
   };
