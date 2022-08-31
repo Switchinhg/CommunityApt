@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut } from 'firebase/auth'
-import { doc, getDoc, /* getDoc , */ getFirestore, setDoc } from 'firebase/firestore'
+import { doc, getFirestore, setDoc } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 /* creamos contexto */
 
@@ -33,16 +33,8 @@ export default function AuthProvider({ children }) {
   /* Pra logear al usuario */
   async function login(email,contraseña){
     return signInWithEmailAndPassword(auth, email,contraseña)
-    .then(data => {
-      console.log(data.user.uid)
-      const usr =  getDoc(doc(db, 'usuarios', data.user.uid))
-
-      console.log(usr)
-      usr?
-        
-        navigate('/login')
-      :
-      navigate('/inicio')
+    .then(() => {
+        navigate('/inicio')
       })
   }
   /* para delogear al usuario */

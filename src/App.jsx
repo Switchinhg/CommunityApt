@@ -8,6 +8,7 @@ import './estilos/estilos.css'
 import NotFound from './componentes/notfound/NotFound';
 import Dashboard from './componentes/dashboard/Dashboard';
 import RutaProtegida from './componentes/rutaProtegida/RutaProtegida';
+import Cargando from './componentes/cargando/Cargando';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <Route path='/contacto' element={<Contacto />}/>
           <Route path='/login' element={<Login />}/>
           <Route path='/inicio' element={ <RutaProtegida ><Dashboard /> </RutaProtegida>}></Route>    
-          
+          <Route path='/cargando' element={<Cargando />} />
           {/* 404 */}
           <Route path='/404' element={<NotFound />} />
           <Route path='*' element={<Navigate to='/404' />} />

@@ -3,7 +3,6 @@ import {useNavigate}from 'react-router-dom'
 import estilos from './login.module.css'
 import { UsarAuth } from '../contextos/AuthContext'
 import MoonLoader from "react-spinners/ClipLoader";
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 
 const Login = () => {
@@ -15,7 +14,6 @@ const Login = () => {
   const nombreRef = useRef()
   const apellidoRef = useRef()
   const navigate = useNavigate()
-  const db = getFirestore()
   function ChangeLogin (){
     setLog(!log)
   }
@@ -27,7 +25,7 @@ const Login = () => {
       navigate('/dashboard')
     }
     
-  }, [])
+  }, [navigate, usuarioActivo])
   
 
   
@@ -41,10 +39,6 @@ const Login = () => {
       try{
         setCargando(true)
         await login(emailRef.current.value, contraRef.current.value)
-         
-         
-
-        console.log(usuarioActivo)
 
 
       }catch(r){
