@@ -1,5 +1,7 @@
 # CommunityAPT
 
+## Sin terminar, quedó como experiencia de registro/login
+
 
 Página para administradores de edificios para mandar comunicados
 
